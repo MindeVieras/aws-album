@@ -1,0 +1,18 @@
+<div class="modal-header" style="background-color:{{modaltitlecolor}}">
+    <h4 class="modal-title">
+    	<span class="title title-dot">{{modaltitle}}</span>
+    	<button type="button" class="btn btn-default btn-xs close pull-right" data-dismiss="modal" aria-hidden="true">
+    		<i class="fa fa-close"></i>
+    	</button>
+    	{{colorpicker}}
+    </h4>
+</div>
+<div class="modal-body">
+    <div class='alertholder'></div>
+    {% block content %}{% endblock %}
+    <div style="clear:both"></div>
+</div>
+<div class="modal-footer">
+    {% block footer %}{% endblock %}
+</div>
+{% include 'General/partials/onready.html' %}

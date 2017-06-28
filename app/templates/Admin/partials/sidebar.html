@@ -1,0 +1,38 @@
+<section class="sidebar">
+    
+    <div class="user-panel">
+        <a href="/admin/account" class="image">
+            MV
+        </a>
+        <div class="pull-left info">
+            <p>Minde Vieras</p>
+            <span>Administrator</span>
+        </div>
+    </div>
+
+    <form action="#" method="get" class="sidebar-search">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Search...">
+                <button type="button" name="search" class="input-btn"><i class=" fa fa-search"></i></button>
+        </div>
+    </form>
+
+    <ul class="sidebar-menu">
+        <li><a href="{{page.approot}}" class="dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="{{page.approot}}users" class="users"><i class="fa fa-users"></i> <span>Users</span></a></li>
+        <li><a href="{{page.approot}}albums" class="albums"><i class="fa fa-folder-open"></i> <span>Albums</span></a></li>
+        <li><a href="{{page.approot}}persons" class="persons"><i class="fa fa-users"></i> <span>Persons</span></a></li>
+        <li><a href="{{page.approot}}colors" class="colors"><i class="fa fa-paint-brush"></i> <span>Colors</span></a></li>
+        <li><a href="{{page.approot}}reports" class="reports"><i class="fa fa-flag"></i> <span>Reports</span></a></li>
+        <li><a href="{{page.approot}}settings" class="settings"><i class="fa fa-cogs"></i> <span>Settings</span></a></li>
+        <li><a href="{{page.approot}}awsconsole"><i class="fa fa-amazon"></i> <span>AWS</span></a></li>
+        <li><a href="{{page.approot}}f-explorer"><i class="fa fa-file"></i> <span>F-Explorer</span></a></li>
+    </ul>
+
+</section>
+
+<script>
+    $(function() {
+        $('.sidebar-menu .{{page.section}}').addClass('active');
+    });
+</script>

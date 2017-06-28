@@ -1,0 +1,142 @@
+
+{% extends 'General/modalbase.html' %}
+{% set modaltitle %}Add a new Album{% endset %}
+{% set modaltitlecolor %}#{{color[0].code}}{% endset %}
+{% set colorpicker %}
+        <button type="button" data-function="PhotobumAdmin.albumColorPicker" class="btn btn-default btn-xs color pull-right" aria-hidden="true">
+            <i class="fa fa-paint-brush"></i>
+        </button>
+        <input type="text" data-code="{{color[0].code}}" data-pal="{% for c in colors %}{{c.code}},{% endfor %}" class="color-album color-changed" value="#{{color[0].code}}" />
+{% endset %}
+{% block content %}
+<div class="modal-body">
+    <form id="add_album">
+
+        {#.base path #}
+        <!-- <input type="hidden" id="base_path" value="{{page.base_path}}"> -->
+        
+        {# name field #}
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name ="name" placeholder="Name...">
+        </div>
+
+        {# start , end date fields #}
+        <div class="row">
+            <div class="form-group col-xs-6">
+                <label for="start_date">Start Date</label>
+                <div class='input-group date' id='start_date'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group col-xs-6">
+                <label for="end_date">End Date</label>
+                <div class='input-group date' id='end_date'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-info update-dates" data-function="PhotobumAdmin.updateDates">
+            <i class="fa fa-refresh"></i>
+        </button>
+
+        {# label #}
+        <div class="form-group">
+            <label for="album_images">Photos</label>
+            <div class="row"><small class="col-xs-12 form-text text-muted">
+                Max files: {{get_ini('max_file_uploads')}}&nbsp;|
+                Max upload size: {{get_ini('upload_max_filesize')}}&nbsp;|
+                Max post size: {{get_ini('post_max_size')}}&nbsp;|
+                Max exec time: {{get_ini('max_execution_time')}}&nbsp;|
+                Memory limit: {{get_ini('memory_limit')}}
+            </small></div>
+        </div>
+        
+        {# dropzone preview #}
+        <div class="list-group files" id="previews">
+            {% include 'Admin/partials/dropzone-album.html' %}
+        </div>
+
+        {# dropzone input #}
+        <div class="form-group">
+            <span class="btn btn-success fileinput-button dz-clickable">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>Add files...</span>
+            </span>
+        </div>
+        <div id="img_urls" class="hidden"></div>
+
+        {# location field #}
+        <div class="form-group">
+            <label for="location_name">Location</label>
+            <input type="text" class="form-control" id="location_name" name="location_name" placeholder="Location name...">
+        </div>
+        
+        {# map #}
+        <div class="panel panel-default panel-map">
+            <div class="">
+                <div id="album_map"></div>
+            </div>
+        </div>
+        <div id="album_markers"></div>
+        
+        {# body field #}
+        <div class="form-group">
+            <label for="album_body">Body</label>
+            <div class="form-control" data-tinymce id="album_body"></div>
+        </div>
+
+        {# persons selection #}
+        <div class="form-group">
+            <label for="assign_person">Assign Persons</label>
+            <select class="form-control select2-multiple" multiple="multiple" id="album_persons">
+                {% for p in persons %}
+                <option value="{{p.id}}" class="album_person" name="persons[]">
+                    {{p.person_name}}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <script type="text/javascript">
+            // Start Datepicker
+            $('#start_date').datetimepicker({
+                    format: 'DD-MM-YYYY, HH:mm:ss',
+                    date: moment()
+                }
+            );
+            $('#start_date').on('dp.change', function (e) {
+                $('#end_date').data("DateTimePicker").minDate(e.date);
+            });
+
+            // End Datepicker
+            $('#end_date').datetimepicker({
+                    format: 'DD-MM-YYYY, HH:mm:ss',
+                    date: moment(),
+                    useCurrent: false
+                }
+            );
+
+            $("#end_date").on("dp.change", function (e) {
+                $('#start_date').data("DateTimePicker").maxDate(e.date);
+            });
+    </script>
+
+    </form>
+</div>
+{% endblock content %}
+{% block footer %}
+<div class="form-group pull-left">
+    <input type="checkbox" id="album_private" name="album_private" data-checkbox="privateToggle">
+</div>
+<button type="button" class="btn btn-default cancel-button" data-dismiss="modal"><span>Cancel</span></button>
+<button type="button" class="btn btn-success ladda-button save-button" data-style="zoom-out" data-function="PhotobumAdmin.addAlbum"><span class="ladda-label">Save</span></button>
+{% endblock footer %}
