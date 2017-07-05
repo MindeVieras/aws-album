@@ -23,22 +23,23 @@ class Aws extends \Photobum\Base
         ]);
     }
 
-    protected function localisePath($path) {
+    protected function localisePath($path)
+    {
         //no cdn
         //return $path;
 
         //removes the amazon bit from the path
-        $path = str_replace(['https://' ,'http://'], '',$path);
-        return trim(str_replace(['s3-eu-west-1.amazonaws.com/', $this->bucket], '',$path), '/');
+        $path = str_replace(['https://' ,'http://'], '', $path);
+        return trim(str_replace(['s3-eu-west-1.amazonaws.com/', $this->bucket], '', $path), '/');
     }
 
-    protected function getS3() {
+    protected function getS3()
+    {
         return $this->sdk->createS3();
     }
 
-    protected function getTc() {
+    protected function getTc()
+    {
         return $this->sdk->createElasticTranscoder();
     }
-
-
 }

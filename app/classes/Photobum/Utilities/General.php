@@ -12,8 +12,7 @@ use \DateTime;
 
 class General
 {
-
-    public static function flushJsonResponse(Array $a, $statusCode = 200, $base64encode = false)
+    public static function flushJsonResponse(array $a, $statusCode = 200, $base64encode = false)
     {
         $j = json_encode($a);
         if (!headers_sent()) {
@@ -27,11 +26,6 @@ class General
         die($j);
     }
 
-    public static function getCurrentMySqlDate()
-    {
-        return date('Y-m-d H:i:s');
-    }
-
     public static function getColors()
     {
         $f3 = \Base::instance();
@@ -40,16 +34,15 @@ class General
         $colors = $db->exec("SELECT * FROM colors");
         
         return $colors;
-
     }
 
-    public static function getPersons($id = NULL){
-
+    public static function getPersons($id = null)
+    {
         $f3 = \Base::instance();
         $db = $f3->get('DB');
 
         $persons = $db->exec("SELECT id, person_name FROM persons ORDER BY person_name");
-        if (!$id){
+        if (!$id) {
             return $persons;
         } else {
             foreach ($persons as $p) {
@@ -62,13 +55,13 @@ class General
         }
     }
 
-    public static function personChecked($album_id, $person_id){
-        
+    public static function personChecked($album_id, $person_id)
+    {
         $f3 = \Base::instance();
         $db = $f3->get('DB');
 
         $persons = $db->exec("SELECT * FROM persons_rel WHERE album_id = '$album_id' AND person_id = '$person_id'");
-        if(!empty($persons)){
+        if (!empty($persons)) {
             $is_chcked = 1;
         } else {
             $is_chcked = 0;
@@ -93,7 +86,6 @@ class General
         } else {
             return self::makeUrl($title, $area, ++$count);
         }
-
     }
 
     public static function makeAlbumUrl($name, $date)
@@ -114,7 +106,6 @@ class General
         //if ($model->dry()) {
         return ['url' => $url];
         //}
-
     }
 
     public static function makeFileUrl($name, $date)
@@ -135,42 +126,30 @@ class General
         //if ($model->dry()) {
         return ['url' => $url];
         //}
-
     }
 
-    public static function formatSizeUnits($bytes){
-        if ($bytes >= 1073741824)
-        {
+    public static function formatSizeUnits($bytes)
+    {
+        if ($bytes >= 1073741824) {
             $bytes = number_format($bytes / 1073741824, 2) . ' GB';
-        }
-        elseif ($bytes >= 1048576)
-        {
+        } elseif ($bytes >= 1048576) {
             $bytes = number_format($bytes / 1048576, 1) . ' MB';
-        }
-        elseif ($bytes >= 1024)
-        {
+        } elseif ($bytes >= 1024) {
             $bytes = number_format($bytes / 1024, 1) . ' kB';
-        }
-        elseif ($bytes > 1)
-        {
+        } elseif ($bytes > 1) {
             $bytes = $bytes . ' bytes';
-        }
-        elseif ($bytes == 1)
-        {
+        } elseif ($bytes == 1) {
             $bytes = $bytes . ' byte';
-        }
-        else
-        {
+        } else {
             $bytes = '0 bytes';
         }
 
         return $bytes;
     }
 
-    public static function throw404() {
+    public static function throw404()
+    {
         $f3 = \Base::instance();
         $f3->error(404);
     }
-
-
 }

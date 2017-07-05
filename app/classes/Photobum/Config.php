@@ -6,20 +6,17 @@ use DB\SQL;
 
 class Config
 {
-    public static function bootstrap($router = 'web')
+    public static function bootstrap($runmode)
     {
-
         date_default_timezone_set('UTC');
         ini_set('session.gc_maxlifetime', 7200);
         if (!array_key_exists('EB_ROOT', $_ENV) && !array_key_exists('UPSTART_JOB', $_ENV) && !array_key_exists('EC2_HOME', $_ENV)) {
-
             require(sprintf('%s/LocalConfig.php', dirname(dirname(dirname(__DIR__)))));
             new \LocalConfig();
-
         }
         $f3 = \Base::instance();
         $f3->set('AUTOLOAD', 'app/classes/');
-
+        $f3->set('RUNMODE', $runmode);
         $f3->set('DEBUG', Config::get('F3_DEBUG'));
         $dbconStr = sprintf(
             'mysql:host=%s;port=3306;dbname=%s',
@@ -49,12 +46,6 @@ class Config
             new Session();
         }
 
-        if (self::get('ENVIRONMENT') == 'development') {
-            \Kint::enabled(true);
-        } else {
-            \Kint::enabled(false);
-        }
-
         if ($f3->get('SERVER.HTTP_HOST')) {
             $host = $_SERVER['HTTP_HOST'];
         } else {
@@ -74,7 +65,6 @@ class Config
         } else {
             DEFINE('EOL', '<br/>');
         }
-
     }
 
     /**
@@ -114,5 +104,4 @@ class Config
             return new RejectedPromise(new CredentialsException($msg));
         };
     }
-
 }

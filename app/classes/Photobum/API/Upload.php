@@ -8,7 +8,6 @@ use Photobum\Utilities\Aws\Transcoder\Job;
 
 class Upload extends APIController
 {
-
     public function get()
     {
         sd($this->f3->get('ROOT'));
@@ -17,12 +16,9 @@ class Upload extends APIController
 
     public function post()
     {
-
-        foreach($_FILES as $file) {
-
+        foreach ($_FILES as $file) {
             if ($file['error']) {
-
-                switch( $file['error'] ) {
+                switch ($file['error']) {
                     case UPLOAD_ERR_OK:
                         $message = false;;
                         break;
@@ -57,12 +53,12 @@ class Upload extends APIController
             $videoThumbName = $vthumb[0];
             //General::flushJsonResponse(['ack'=>'ok', 'msg'=> $file]);
 
-            if(move_uploaded_file($file['tmp_name'], $ec2Dest)){
+            if (move_uploaded_file($file['tmp_name'], $ec2Dest)) {
 
                 // Send original file to S3
                 $res = (new Put())->uploadAlbum($ec2Dest, $bucketDest);
 
-                if($file['type'] == 'image/jpeg'){
+                if ($file['type'] == 'image/jpeg') {
                     // Make temporary local EC2 UHD image to make other thumbs for less memory
                     exec("convert ".$ec2Dest." -thumbnail '3840x2160>' ".$ec2Dest);
                     //$uhdImg = General::generateThumb($ec2Dest, $ec2Dest, 3840, 2160, false);
@@ -87,7 +83,7 @@ class Upload extends APIController
                         //$thumbImg = General::generateThumb($uhdUrl, $ec2FilePath, $style['width'], $style['height'], $crop);
 
                         (new Put())->uploadAlbum($ec2FilePath, $styleFilePath);
-                        if(file_exists($ec2FilePath)){
+                        if (file_exists($ec2FilePath)) {
                             unlink($ec2FilePath);
                         }
                     }
@@ -95,22 +91,19 @@ class Upload extends APIController
                     General::flushJsonResponse(['ack'=>'ok', 'location'=> $res['UploadURL'], 'new_filename'=> $newFilename, 'msg'=> $file]);
                 }
 
-                if($file['type'] == 'video/mp4'){
-
+                if ($file['type'] == 'video/mp4') {
                     $src = $res['UploadURL'];
 
                     foreach ($this->video_sizes as $size) {
                         $dest = 'uploads/videos/'.$size.'/'.$newFilename;
                         $video = (new Job())->createJob($src, $dest, $size, $videoThumbName);
-                    }            
-                    if(file_exists($ec2Dest)){
+                    }
+                    if (file_exists($ec2Dest)) {
                         unlink($ec2Dest);
                     }
                     General::flushJsonResponse(['ack'=>'ok', 'location'=> $res['UploadURL'], 'new_filename'=> $newFilename, 'msg'=> $ec2Dest]);
                 }
-
             }
-
         }
     }
 

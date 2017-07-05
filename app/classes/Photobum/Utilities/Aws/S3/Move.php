@@ -10,8 +10,8 @@ use Photobum\Utilities\Aws\S3\Delete;
 
 class Move extends Aws
 {
-
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->s3 = $this->getS3();
     }
@@ -23,7 +23,6 @@ class Move extends Aws
         $d = array();
 
         foreach ($src as $row) {
-
             $filename = basename($row['src']);
             $source = $row['src'];
             $dest = sprintf('albums/%s/%s', $namePath, $filename);
@@ -39,10 +38,9 @@ class Move extends Aws
             (new Copy())->copyObject($source, $dest);
             
             // Copy image styles
-            if($row['type'] == 'image'){
+            if ($row['type'] == 'image') {
                 foreach ($this->img_styles as $st) {
-
-                    if($p[0] == 'uploads'){
+                    if ($p[0] == 'uploads') {
                         $styleSrc = sprintf('uploads/styles/%s/%s', $st['name'], $filename);
                     } elseif ($p[0] == 'albums') {
                         $old_path = str_replace('albums/', '', $source);
@@ -59,12 +57,12 @@ class Move extends Aws
             }
 
             // Copy video sizes
-            if($row['type'] == 'video'){
+            if ($row['type'] == 'video') {
                 foreach ($this->video_sizes as $size) {
                     $vthumb = explode('.', $filename);
                     $videoThumbName = $vthumb[0];
 
-                    if($p[0] == 'uploads'){
+                    if ($p[0] == 'uploads') {
                         $sizeSrc = sprintf('uploads/videos/%s/%s', $size, $filename);
                         $thumbSrc = sprintf('uploads/videos/%s/%s-00001.jpg', $size, $videoThumbName);
                     } elseif ($p[0] == 'albums') {
@@ -96,7 +94,5 @@ class Move extends Aws
         (new Delete())->deleteObjects($del_keys);
 
         //return $data;
-
     }
-
 }

@@ -4,7 +4,6 @@ namespace Photobum\Utilities;
 
 class Mapper extends \DB\SQL\Mapper
 {
-
     public function save($saveVirtual = false)
     {
         parent::save();
@@ -16,7 +15,6 @@ class Mapper extends \DB\SQL\Mapper
     public function saveVirtual()
     {
         foreach ($this->adhoc as $k => $v) {
-
             if ($v['changed']) {
                 $info = $this->getTableFromExpr($v['expr'], $k);
                 if ($info) {
@@ -61,7 +59,6 @@ class Mapper extends \DB\SQL\Mapper
         $rest = implode(' ', $rest);
 
         return $this->extractForeignKey($rest);
-
     }
 
     private function extractForeignKey($str)

@@ -4,10 +4,8 @@ namespace Photobum\Utilities;
 
 use Photobum\Config;
 
-
 class Twig extends \Twig_Environment
 {
-
     public function __construct()
     {
         $this->f3 = \Base::instance();
@@ -107,14 +105,13 @@ class Twig extends \Twig_Environment
 
       //  $filter = new \Twig_SimpleFilter('htmltruncate', [$this , 'htmlTruncate']);
         $this->addFilter($filter);
-
-
     }
 
 
-    public function getPath() {
-      $paths = ($this->loader->getPaths());
-      return(array_shift($paths));
+    public function getPath()
+    {
+        $paths = ($this->loader->getPaths());
+        return(array_shift($paths));
     }
 
     public function onReady($func)
@@ -137,14 +134,12 @@ class Twig extends \Twig_Environment
         $tags = array();
         $out = "";
 
-        while ($printedLength < $maxLength && $this->mb_preg_match('{</?([a-z]+)[^>]*>|&#?[a-zA-Z0-9]+;}', $html, $match, PREG_OFFSET_CAPTURE, $position))
-        {
+        while ($printedLength < $maxLength && $this->mb_preg_match('{</?([a-z]+)[^>]*>|&#?[a-zA-Z0-9]+;}', $html, $match, PREG_OFFSET_CAPTURE, $position)) {
             list($tag, $tagPosition) = $match[0];
 
             // Print text leading up to the tag.
             $str = mb_substr($html, $position, $tagPosition - $position);
-            if ($printedLength + mb_strlen($str) > $maxLength)
-            {
+            if ($printedLength + mb_strlen($str) > $maxLength) {
                 $out .= mb_substr($str, 0, $maxLength - $printedLength);
                 $printedLength = $maxLength;
                 break;
@@ -153,32 +148,24 @@ class Twig extends \Twig_Environment
             $out .= $str;
             $printedLength += mb_strlen($str);
 
-            if ($tag[0] == '&')
-            {
+            if ($tag[0] == '&') {
                 // Handle the entity.
                 $out .= $tag;
                 $printedLength++;
-            }
-            else
-            {
+            } else {
                 // Handle the tag.
                 $tagName = $match[1][0];
-                if ($tag[1] == '/')
-                {
+                if ($tag[1] == '/') {
                     // This is a closing tag.
 
                     $openingTag = array_pop($tags);
                     assert($openingTag == $tagName); // check that tags are properly nested.
 
                     $out .= $tag;
-                }
-                else if ($tag[mb_strlen($tag) - 2] == '/')
-                {
+                } elseif ($tag[mb_strlen($tag) - 2] == '/') {
                     // Self-closing tag.
                     $out .= $tag;
-                }
-                else
-                {
+                } else {
                     // Opening tag.
                     $out .= $tag;
                     $tags[] = $tagName;
@@ -190,8 +177,9 @@ class Twig extends \Twig_Environment
         }
 
         // Print any remaining text.
-        if ($printedLength < $maxLength && $position < mb_strlen($html))
+        if ($printedLength < $maxLength && $position < mb_strlen($html)) {
             $out .= mb_substr($html, $position, $maxLength - $printedLength);
+        }
 
         // Close any open tags.
 
@@ -199,8 +187,9 @@ class Twig extends \Twig_Environment
             $out = substr($out, 0, -1);
         }
         $out = sprintf('%s...', substr($out, 0, -1));
-        while (!empty($tags))
+        while (!empty($tags)) {
             $out .= sprintf('</%s>', array_pop($tags));
+        }
 
         return $out;
     }
@@ -211,20 +200,23 @@ class Twig extends \Twig_Environment
         &$pa_matches,
         $pn_flags = 0,
         $pn_offset = 0,
-        $ps_encoding = NULL
+        $ps_encoding = null
     ) {
         // WARNING! - All this function does is to correct offsets, nothing else:
         //(code is independent of PREG_PATTER_ORDER / PREG_SET_ORDER)
 
-        if (is_null($ps_encoding)) $ps_encoding = mb_internal_encoding();
+        if (is_null($ps_encoding)) {
+            $ps_encoding = mb_internal_encoding();
+        }
 
         $pn_offset = strlen(mb_substr($ps_subject, 0, $pn_offset, $ps_encoding));
         $ret = preg_match($ps_pattern, $ps_subject, $pa_matches, $pn_flags, $pn_offset);
 
-        if ($ret && ($pn_flags & PREG_OFFSET_CAPTURE))
-            foreach($pa_matches as &$ha_match) {
+        if ($ret && ($pn_flags & PREG_OFFSET_CAPTURE)) {
+            foreach ($pa_matches as &$ha_match) {
                 $ha_match[1] = mb_strlen(substr($ps_subject, 0, $ha_match[1]), $ps_encoding);
             }
+        }
 
         return $ret;
     }

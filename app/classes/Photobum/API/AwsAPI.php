@@ -7,12 +7,11 @@ use Photobum\Config;
 
 use Photobum\Utilities\Aws\S3\Delete;
 
-class AwsAPI extends APIController{
-
-    public function s3_deleteObject(){
-        
+class AwsAPI extends APIController
+{
+    public function s3_deleteObject()
+    {
         if ($this->f3->get('VERB') == 'POST') {
-
             $data = $this->f3->get('POST');
             $key = $data['url'];
 
@@ -24,8 +23,6 @@ class AwsAPI extends APIController{
                 'ack' => 'ok',
                 'msg' => 'Deleted!'
             ]);
-
         }
     }
-
 }

@@ -12,5 +12,4 @@ use Photobum\Base;
 
 class APIController extends Base
 {
-
 }

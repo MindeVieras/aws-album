@@ -7,8 +7,8 @@ use Photobum\Utilities\Aws\Aws;
 
 class Copy extends Aws
 {
-
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->s3 = $this->getS3();
     }
@@ -24,7 +24,5 @@ class Copy extends Aws
             'Key' => $key,
             'CopySource' => "{$bucket}/{$src}"
         ]);
-
     }
-
 }

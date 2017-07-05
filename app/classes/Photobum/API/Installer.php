@@ -6,28 +6,26 @@ use Photobum\Base;
 use Photobum\Config;
 use Photobum\Utilities\General;
 
-class Installer extends APIController{
-
-    public function composerCheckStatus(){
-        
+class Installer extends APIController
+{
+    public function composerCheckStatus()
+    {
         if ($this->f3->get('VERB') == 'POST') {
-
             $data = $this->f3->get('POST');
 
-            if($data['function'] == 'getJson'){
+            if ($data['function'] == 'getJson') {
                 $output = array(
                     'composerJson' => file_exists(Config::get('BASE_PATH').'composer.json')
                 );
                 $ack = 'ok';
             }
 
-            if($data['function'] == 'getPackages'){
+            if ($data['function'] == 'getPackages') {
                 $output = array(
                     'composerPackages' => $this->getPackages(Config::get('BASE_PATH').'composer.json')
                 );
                 $ack = 'ok';
             }
-
         }
         General::flushJsonResponse([
             'ack' => $ack,
@@ -35,7 +33,8 @@ class Installer extends APIController{
         ]);
     }
 
-    public function getPackages($path){
+    public function getPackages($path)
+    {
         $string = file_get_contents($path);
         $json = json_decode($string, false);
 
@@ -53,5 +52,4 @@ class Installer extends APIController{
         return $required;
         //sd($json->require);
     }
-
 }

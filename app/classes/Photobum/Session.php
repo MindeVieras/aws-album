@@ -7,7 +7,6 @@ use DB\SQL\Mapper;
 //! SQL-managed session handler
 class Session extends Mapper
 {
-
     protected $sid;
 
     /**
@@ -149,6 +148,5 @@ class Session extends Mapper
 
         register_shutdown_function('session_commit');
         session_start();
-
     }
 }

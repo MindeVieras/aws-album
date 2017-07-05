@@ -22,9 +22,6 @@ class Base
     {
         $this->f3 = \Base::instance();
         $this->db = $this->f3->get('DB');
-        $this->img_styles = $this->db->exec("SELECT * FROM media_styles ORDER BY id ASC");
-        $this->video_sizes = array('md', 'hd', 'fhd');
-
     }
 
     /**
@@ -79,10 +76,8 @@ class Base
     }
 
 
-    protected function dumpJsonResponse(Array $a, $statusCode = 200)
+    protected function dumpJsonResponse(array $a, $statusCode = 200)
     {
         General::flushJsonResponse($a, $statusCode);
     }
-
-
 }

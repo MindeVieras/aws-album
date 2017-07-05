@@ -1,7 +1,7 @@
 {
-  "name": "album",
+  "name": "aws-album",
   "version": "1.1.0",
-  "description": "Album CMS on FatFree",
+  "description": "AWS Album CMS on FatFree",
   "main": "GruntFile.js",
   "directories": {
     "test": "tests"
@@ -18,12 +18,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/MindeVieras/album.git"
+    "url": "https://github.com/MindeVieras/aws-album.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MindeVieras/album/issues"
+    "url": "https://github.com/MindeVieras/aws-album/issues"
   },
-  "homepage": "https://github.com/MindeVieras/album#README"
+  "homepage": "https://github.com/MindeVieras/aws-album#README"
 }

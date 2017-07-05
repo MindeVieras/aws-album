@@ -5,8 +5,8 @@ namespace Photobum\API;
 use Photobum\Utilities\General;
 use Photobum\Config;
 
-class Utilities extends APIController{
-
+class Utilities extends APIController
+{
     public function generateSlug()
     {
         //         $f3 = \Base::instance();
@@ -24,29 +24,27 @@ class Utilities extends APIController{
         // } else {
         //     return self::makeUrl($title, $area, ++$count);
         // }
-        General::flushJsonResponse( General::makeUrl(
+        General::flushJsonResponse(General::makeUrl(
             $this->f3->get('REQUEST.value')
         ));
     }
 
-    public function collapseMenu(){
-        
+    public function collapseMenu()
+    {
         if ($this->f3->get('VERB') == 'POST') {
-            
             $data = $this->f3->get('POST');
 
-            $men = $this->initOrm('user_settings', true);   
+            $men = $this->initOrm('user_settings', true);
             $men->load(['user_id=?', $data['id']]);
-            if(!$men->dry()){
+            if (!$men->dry()) {
                 $men->menu_collapsed = $data['status'];
                 $men->save();
             }
-
         }
     }
 
-    public function fixDir(){
-        
+    public function fixDir()
+    {
         if ($this->f3->get('VERB') == 'POST') {
             $ack = 'ok';
             $data = $this->f3->get('POST');
@@ -65,12 +63,11 @@ class Utilities extends APIController{
                 'ack' => $ack,
                 'msg' => $path
             ]);
-
         }
     }
 
-    public function deleteAlbumDir(){
-        
+    public function deleteAlbumDir()
+    {
         if ($this->f3->get('VERB') == 'POST') {
             $ack = 'ok';
             $data = $this->f3->get('POST');
@@ -78,12 +75,10 @@ class Utilities extends APIController{
             //$this->rrmdir($data['dir']);
             $command = 'rm -Rf '.$data['dir'];
             shell_exec($command);
-
         }
         General::flushJsonResponse([
             'ack' => $ack,
             'msg' => $data
         ]);
     }
-
 }

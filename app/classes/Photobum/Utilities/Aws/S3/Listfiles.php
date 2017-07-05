@@ -7,8 +7,8 @@ use Photobum\Utilities\Aws\Aws;
 
 class Listfiles extends Aws
 {
-
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->s3 = $this->getS3();
     }
@@ -28,5 +28,4 @@ class Listfiles extends Aws
         ]);
         return $result;
     }
-
 }

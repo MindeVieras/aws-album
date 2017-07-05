@@ -7,20 +7,20 @@ use Photobum\Utilities\Aws\Aws;
 
 class Job extends Aws
 {
-
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->tc = $this->getTc();
     }
 
     public function createJob($src, $dest, $size, $thumbName)
     {
-        if ($size == 'md'){
+        if ($size == 'md') {
             $preset = '1495400403828-wqj8po';
-        } elseif ($size == 'hd'){
+        } elseif ($size == 'hd') {
             //$preset = '1495400403828-wqj8po';
             $preset = '1495399217775-k8xki9';
-        } elseif ($size == 'fhd'){
+        } elseif ($size == 'fhd') {
             $preset = '1495400496449-9wdlte';
         } else {
             // Set 320x240 standard if no size
@@ -49,5 +49,4 @@ class Job extends Aws
         
         return $result;
     }
-
 }

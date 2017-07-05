@@ -7,8 +7,8 @@ use Photobum\Utilities\Aws\Aws;
 
 class Delete extends Aws
 {
-
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->s3 = $this->getS3();
     }
@@ -20,7 +20,7 @@ class Delete extends Aws
         $this->s3->deleteObject([
             'Bucket' => $bucket,
             'Key'    => $key
-        ]); 
+        ]);
     }
 
     public function deleteObjects($keys)
@@ -32,7 +32,6 @@ class Delete extends Aws
             'Delete' => [
                 'Objects' => $keys
             ]
-        ]); 
+        ]);
     }
-
 }

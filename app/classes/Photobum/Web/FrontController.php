@@ -7,7 +7,7 @@ use Photobum\Config;
 use Photobum\Utilities\Twig;
 
 class FrontController extends Base
-{    
+{
     public function __construct()
     {
         parent::__construct();
@@ -27,19 +27,18 @@ class FrontController extends Base
             'section' => 'homepage',
             'user' => $user,
         ];
+        //d($this->page);
     }
 
     public function auth($level = 0)
     {
         if ($this->f3->get('SESSION.album_web')) {
-            if ($this->f3->get('SESSION.album_web.access_level') >= $level) {    
+            if ($this->f3->get('SESSION.album_web.access_level') >= $level) {
                 return 1;
             }
             $this->f3->error(403);
             $this->f3->reroute('/');
-
         }
         $this->f3->reroute('/login');
     }
-
 }

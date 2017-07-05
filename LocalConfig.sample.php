@@ -10,7 +10,7 @@ class LocalConfig
         $_ENV["BASE_URL"] = 'http://my.domain.com';
         $_ENV["BASE_PATH"] = '/path/to/public_html/';
         $_ENV["DEVELOPER_TEST_EMAIL"] = 'email@emial.com';
-        //Database 
+        //Database
         $_ENV["DB_HOSTNAME"] = 'localhost';
         $_ENV["DB_DATABASE"] = 'datbase name';
         $_ENV["DB_USERNAME"] = 'username';

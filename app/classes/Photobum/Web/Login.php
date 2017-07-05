@@ -6,21 +6,35 @@ use Photobum\Utilities\General;
 
 class Login extends FrontController
 {
-    function view()
+    public function __construct()
     {
+        parent::__construct();
 
+        $this->page = [
+            'title' => 'Login',
+            'section' => 'login'
+        ];
+    }
+
+    public function view()
+    {
         if ($this->f3->get('VERB') == 'POST') {
-            $webuser = $this->initOrm('users', true);
-            $webuser->load(['username=? and type=\'web\'', $this->f3->get('POST.username')]);
-            if ($webuser->dry()) {
+            $data = $this->f3->get('POST');
+            
+            $user = $this->initOrm('users', true);
+            $user->load(['username=?', $data['username']]);
+            
+            if ($user->dry()) {
                 General::flushJsonResponse(['ack'=>'error'], 403);
             }
-            if (password_verify($this->f3->get('POST.password'),$webuser->password)) {
-                $webuser->last_login = General::getCurrentMySqlDate();
-                $webuser->save();
-                $webuser->copyTo('SESSION.album_web');
+            
+            if (password_verify($data['password'], $user->password)) {
+                $user->last_login = date('Y-m-d H:i:s');
+                $user->save();
+                $user->copyTo('SESSION.album_web');
                 $this->f3->clear('SESSION.album_web.password');
-                $this->f3->reroute('/');
+
+                General::flushJsonResponse(['ack'=>'ok', 'msg'=>$data]);
             }
         }
         $template = $this->twig->loadTemplate('Web/login.html');
@@ -29,9 +43,5 @@ class Login extends FrontController
         ));
 
         die();
-
-
     }
-
-
 }
