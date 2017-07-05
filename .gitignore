@@ -18,5 +18,5 @@ LocalConfig.php
 
 *.DS_Store
 
-assets
+/assets
 

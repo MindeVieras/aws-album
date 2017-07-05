@@ -25,7 +25,7 @@ class Login extends FrontController
             $user->load(['username=?', $data['username']]);
             
             if ($user->dry()) {
-                General::flushJsonResponse(['ack'=>'error'], 403);
+                General::flushJsonResponse(['ack'=>'error', 'msg'=>'Incorect username or password']);
             }
             
             if (password_verify($data['password'], $user->password)) {
@@ -36,7 +36,10 @@ class Login extends FrontController
 
                 General::flushJsonResponse(['ack'=>'ok', 'msg'=>$data]);
             }
+
+            General::flushJsonResponse(['ack'=>'error', 'msg'=>'Incorect username or password']);
         }
+
         $template = $this->twig->loadTemplate('Web/login.html');
         echo $template->render(array(
             'page' => $this->page
