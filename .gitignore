@@ -4,6 +4,7 @@ node_modules
 
 *.cache
 
+.php_cs.cache
 php-cs-fixer.phar
 
 *.js.map
@@ -20,3 +21,8 @@ LocalConfig.php
 
 /assets
 
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
