@@ -7,22 +7,14 @@ module.exports = function(grunt) {
     grunt.initConfig({
         // Sass
         sass: {
-            // admin: {
-            //     options: {
-            //         style: 'expanded'
-            //     },
-            //     files: {
-            //         './assets/css/admin.min.css': './app/assets/sass/admin/main.scss'
-            //     }
-            // },
-            // web: {
-            //     options: {
-            //         style: 'expanded'
-            //     },
-            //     files: {
-            //         './assets/css/web.min.css': './app/assets/sass/web/main.scss'
-            //     }
-            // },
+            web: {
+                options: {
+                    style: 'compressed'
+                },
+                files: {
+                    './assets/css/styles.min.css': './app/assets/sass/web/main.scss'
+                }
+            },
             login: {
                 options: {
                     style: 'compressed'
@@ -146,12 +138,12 @@ module.exports = function(grunt) {
             //         'sass:admin'
             //     ]
             // },
-            // sass_web: {
-            //     files: ['./app/assets/sass/web/**/*.scss'],
-            //     tasks: [
-            //         'sass:web'
-            //     ]
-            // },
+            sass_web: {
+                files: ['./app/assets/sass/web/**/*.scss'],
+                tasks: [
+                    'sass:web'
+                ]
+            },
             sass_login: {
                 files: ['./app/assets/sass/login/**/*.scss'],
                 tasks: [
