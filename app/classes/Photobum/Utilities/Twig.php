@@ -80,16 +80,6 @@ class Twig extends \Twig_Environment
         $this->addFunction($func);
 
         $func = new \Twig_SimpleFunction(
-            'ddd',
-            function ($var) {
-                if (Config::get('ENVIRONMENT') == 'development') {
-                    ddd($var);
-                }
-            }
-        );
-        $this->addFunction($func);
-
-        $func = new \Twig_SimpleFunction(
             's',
             function ($var) {
                 if (Config::get('ENVIRONMENT') == 'development') {
