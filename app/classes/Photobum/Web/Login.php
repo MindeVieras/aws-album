@@ -34,13 +34,13 @@ class Login extends FrontController
                 $user->copyTo('SESSION.album_web');
                 $this->f3->clear('SESSION.album_web.password');
 
-                General::flushJsonResponse(['ack'=>'ok', 'msg'=>$data]);
+                General::flushJsonResponse(['ack'=>'ok']);
             }
 
             General::flushJsonResponse(['ack'=>'error', 'msg'=>'Incorect username or password']);
         }
 
-        $template = $this->twig->loadTemplate('Web/login.html');
+        $template = $this->twig->loadTemplate('login.html');
         echo $template->render(array(
             'page' => $this->page
         ));

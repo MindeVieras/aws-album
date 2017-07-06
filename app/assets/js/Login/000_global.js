@@ -5,11 +5,6 @@ var Login = (function() {
 })();
 
 $(document).ready(function() {
-    
-    $(document.body).on('click', "[data-remote!=''][data-remote]", function(event) {
-        event.preventDefault();
-        var options = JSON.parse(JSON.stringify($(this).data()));
-    });
 
     $(document.body).on('click', "[data-function!=''][data-function]", function (event) {
         event.preventDefault();
